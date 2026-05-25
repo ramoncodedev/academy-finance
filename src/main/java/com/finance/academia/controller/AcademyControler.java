@@ -36,7 +36,7 @@ public class AcademyControler {
         return ResponseEntity.ok().body(academyConvert);
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public ResponseEntity<AcademyResponse> findByAcademy( @RequestParam String name){
         Academy academy = academyService.findAcademyByName(name);
 
