@@ -4,6 +4,7 @@ import com.finance.academia.exception.ResourceNotFoundException;
 import com.finance.academia.model.Usuario;
 import com.finance.academia.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +14,12 @@ import java.util.List;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Usuario saveUsuario(Usuario usuario) {
+        String password = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(password);
+
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new IllegalArgumentException("Já existe um usuário com esse email");
         }
