@@ -1,7 +1,9 @@
 package com.finance.academia.service;
 
 import com.finance.academia.exception.ResourceNotFoundException;
-import com.finance.academia.model.Usuario;
+import com.finance.academia.model.academia.Academy;
+import com.finance.academia.model.usuario.Usuario;
+import com.finance.academia.repository.AcademyRepository;
 import com.finance.academia.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,15 +16,19 @@ import java.util.List;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final AcademyRepository academyRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Usuario saveUsuario(Usuario usuario) {
-        String password = passwordEncoder.encode(usuario.getPassword());
-        usuario.setPassword(password);
+    public Usuario saveUsuario(Usuario usuario, Long academyId) {
+        Academy academy = academyRepository.findById(academyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Academia não encontrada com id: " + academyId));
 
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new IllegalArgumentException("Já existe um usuário com esse email");
         }
+
+        usuario.setAcademy(academy);
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuario.setAtivo(true);
         return usuarioRepository.save(usuario);
     }
