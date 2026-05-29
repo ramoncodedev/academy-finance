@@ -2,7 +2,7 @@ package com.finance.academia.mapper;
 
 import com.finance.academia.dto.request.UsuarioRequest;
 import com.finance.academia.dto.response.UsuarioResponse;
-import com.finance.academia.model.Usuario;
+import com.finance.academia.model.usuario.Usuario;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

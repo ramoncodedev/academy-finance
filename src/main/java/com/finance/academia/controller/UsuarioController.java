@@ -6,12 +6,13 @@ import com.finance.academia.dto.request.UsuarioRequest;
 import com.finance.academia.dto.response.AuthResponse;
 import com.finance.academia.dto.response.UsuarioResponse;
 import com.finance.academia.mapper.UsuarioMapper;
-import com.finance.academia.model.Usuario;
+import com.finance.academia.model.usuario.Usuario;
 import com.finance.academia.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,14 +29,12 @@ public class UsuarioController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<UsuarioResponse> createUser( @RequestBody @Valid UsuarioRequest request){
-
+    public ResponseEntity<UsuarioResponse> createUser(@RequestBody @Valid UsuarioRequest request) {
         Usuario usuario = UsuarioMapper.toEntity(request);
-        Usuario usuarioSave = usuarioService.saveUsuario(usuario);
-
+        Usuario usuarioSave = usuarioService.saveUsuario(usuario, request.academyId());
         return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toResponse(usuarioSave));
-
     }
 
     @PostMapping("/login")
@@ -53,6 +52,7 @@ public class UsuarioController {
     }
 
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UsuarioResponse>> listUsers(){
         List<Usuario> usuarioList = usuarioService.findAllUsuarios();
@@ -61,6 +61,7 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarioConvert);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/search")
     public ResponseEntity<UsuarioResponse> findByEmail( @RequestParam String email){
         Usuario usuario = usuarioService.findUsuarioByEmail(email);
@@ -68,6 +69,7 @@ public class UsuarioController {
         return ResponseEntity.ok().body(UsuarioMapper.toResponse(usuario));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping
     public ResponseEntity<Void> deleteByEmail(@RequestParam String email){
         usuarioService.deleteByEmail(email);

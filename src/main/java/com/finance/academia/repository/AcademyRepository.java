@@ -1,6 +1,6 @@
 package com.finance.academia.repository;
 
-import com.finance.academia.model.Academy;
+import com.finance.academia.model.academia.Academy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,10 @@
 package com.finance.academia.config;
 
-import com.finance.academia.model.Usuario;
+import com.finance.academia.model.usuario.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -12,14 +13,17 @@ import java.util.Date;
 @Component
 public class TokenService {
 
-    private final String secretKey = "my-super-secret-key-for-jwt-authentication-2026";
+    @Value("${jwt.secret}")
+    private String secretKey;
 
-    public String generateToken(Usuario usuario){
+    @Value("${jwt.expiration}")
+    private long expiration;
 
+    public String generateToken(Usuario usuario) {
         return Jwts.builder()
                 .subject(usuario.getEmail())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 3600000))// Token válido por 1 hora
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
                 .compact();
     }

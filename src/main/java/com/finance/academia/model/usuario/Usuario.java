@@ -1,11 +1,13 @@
-package com.finance.academia.model;
+package com.finance.academia.model.usuario;
 
 
+import com.finance.academia.model.academia.Academy;
 import com.finance.academia.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
@@ -49,7 +51,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

@@ -1,10 +1,9 @@
-package com.finance.academia.model;
+package com.finance.academia.model.academia;
 
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 

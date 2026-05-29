@@ -1,6 +1,6 @@
 package com.finance.academia.service;
 
-import com.finance.academia.model.Academy;
+import com.finance.academia.model.academia.Academy;
 import com.finance.academia.repository.AcademyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

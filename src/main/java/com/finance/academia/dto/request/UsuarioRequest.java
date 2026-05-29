@@ -5,6 +5,9 @@ import jakarta.validation.constraints.*;
 
 public record UsuarioRequest(
 
+        @NotNull
+        Long academyId,
+
         @NotBlank
         @Size(min = 3, max = 100)
         String name,

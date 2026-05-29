@@ -63,7 +63,7 @@ public class AlunoService {
         aluno.setTelefone(dados.getTelefone());
         aluno.setDataNascimento(dados.getDataNascimento());
         aluno.setSexo(dados.getSexo());
-        aluno.setFoto_url(dados.getFoto_url());
+        aluno.setFotoUrl(dados.getFotoUrl());
         aluno.setObservacoes(dados.getObservacoes());
         aluno.setBairro(dados.getBairro());
         aluno.setRua(dados.getRua());
